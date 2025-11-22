@@ -1,0 +1,4 @@
+# Block all search engines from indexing this site
+# Remove or update these directives to allow indexing in production
+User-agent: *
+Disallow: /
