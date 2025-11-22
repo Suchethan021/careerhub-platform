@@ -1,6 +1,6 @@
 # CareerHub: Multi-Company Careers Page Builder
 
-**Live Link:** [Will be added after deployment]
+**Live Link:** https://careerhub-platform.vercel.app/
 
 ## Quick Navigation
 
