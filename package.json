@@ -11,6 +11,7 @@
     "preview": "vite preview",
     "test": "vitest",
     "seed:jobs": "node --env-file=../.env.local seed-demo-jobs.mjs",
+    "seed": "node --env-file=../.env seed-demo-jobs.mjs",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage"
   },
