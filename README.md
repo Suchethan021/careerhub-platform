@@ -5,7 +5,7 @@
 ## Quick Navigation
 
 - **Technical Specification:** See `specs/TECHNICAL_SPEC.md`
-- **Database Schema:** See `specs/database-schema.sql`
+- **Database Schema:** See `specs/schema.sql`
 - **Decisions & Trade-offs:** See `docs/DESIGN_DECISIONS.md`
 - **Authorization Deep Dive:** See `docs/AUTHORIZATION_EXPLAINED.md`
 - **Feature Tracking:** See `docs/REQUIREMENTS_TRACKING.md`
@@ -72,7 +72,7 @@ A SaaS platform that enables companies to build branded, customizable careers pa
 
 1. **Clone repository**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/careerhub-platform.git
+   git clone https://github.com/Suchethan021/careerhub-platform.git
    cd careerhub-platform
    ```
 
@@ -96,13 +96,13 @@ A SaaS platform that enables companies to build branded, customizable careers pa
 4. **Setup database**
    - Go to Supabase Dashboard → SQL Editor
    - Create new query
-   - Copy entire contents from `specs/database-schema.sql`
-   - Execute query
+   - run the queries from specs/SQL_SETUP_STEPWISE.md (just to be safe, i have shared schema.sql as reference after setting this up you can verify it against your schema you can copy the schema from supabase as well)
+   - Execute queries
    - Verify all tables created
 
 5. **Seed sample data** (optional)
-   - Run seed script: `npm run seed` (when available)
-   - Or manually import from `public/sample-data/jobs.json`
+   - Run seed script: `npm run seed:jobs` (if you have created .env.local use this)
+   - Run seed script: `npm run seed` (if you have created .env use this)
 
 6. **Run development server**
    ```bash
@@ -113,8 +113,9 @@ A SaaS platform that enables companies to build branded, customizable careers pa
 7. **Run tests**
    ```bash
    npm run test
-   npm run test:coverage
+   npm run test:coverage 
    ```
+   more tests need to be added
 
 ---
 
@@ -124,8 +125,8 @@ A SaaS platform that enables companies to build branded, customizable careers pa
 careerhub-platform/
 ├── specs/                          # Technical documentation
 │   ├── TECHNICAL_SPEC.md          # Complete tech spec
-│   ├── database-schema.sql        # Full database schema
-│   └── api-endpoints.md           # API reference
+│   ├── schema.sql                 # Full database schema
+│   └── api-endpoints.md           # API reference (removed)
 │
 ├── docs/                           # Decision documentation (not committed)
 │   ├── DESIGN_DECISIONS.md        # Why we chose each tech/approach
@@ -139,17 +140,17 @@ careerhub-platform/
 │   │   ├── common/
 │   │   │   ├── Header.tsx
 │   │   │   ├── Footer.tsx
-│   │   │   └── Navbar.tsx
+│   │   │   └── MainLayout.tsx
 │   │   ├── recruiter/
-│   │   │   ├── DashboardLayout.tsx
-│   │   │   ├── CompanyBranding.tsx
-│   │   │   ├── ContentSectionEditor.tsx
-│   │   │   ├── DragDropSectionList.tsx
-│   │   │   └── JobManager.tsx
+│   │   │   ├── DashboardStats.tsx
+│   │   │   ├── CompanyForm.tsx
+│   │   │   ├── ContentFaqManager.tsx
+│   │   │   ├── JobCard.tsx
+│   │   │   └── PreviewBanner.tsx
 │   │   ├── candidate/
-│   │   │   ├── CareersPageLayout.tsx
+│   │   │   ├── CareersPageContent.tsx
 │   │   │   ├── JobListings.tsx
-│   │   │   ├── JobFilterBar.tsx
+│   │   │   ├── JobDetailModal.tsx
 │   │   │   └── JobCard.tsx
 │   │   └── auth/
 │   │       ├── LoginForm.tsx
@@ -160,7 +161,6 @@ careerhub-platform/
 │   │   ├── useAuth.ts
 │   │   ├── useCompany.ts
 │   │   ├── useJobs.ts
-│   │   └── useContentSections.ts
 │   │
 │   ├── services/
 │   │   ├── supabase.ts            # Supabase client config
@@ -168,16 +168,15 @@ careerhub-platform/
 │   │   ├── companyService.ts
 │   │   ├── jobService.ts
 │   │   └── storageService.ts
+|   |   |__ contentSectionService.ts
+|   |   |__ faqService.ts
 │   │
 │   ├── types/
 │   │   ├── index.ts
-│   │   ├── company.ts
-│   │   ├── job.ts
-│   │   └── auth.ts
 │   │
 │   ├── context/
 │   │   ├── AuthContext.tsx
-│   │   └── CompanyContext.tsx
+│   │   └── AuthProvider.tsx
 │   │
 │   ├── pages/
 │   │   ├── Login.tsx
@@ -185,13 +184,8 @@ careerhub-platform/
 │   │   ├── Dashboard.tsx
 │   │   ├── CompanyEdit.tsx
 │   │   ├── CareersPage.tsx
-│   │   └── NotFound.tsx
+│   │   └── NotFound.tsx (etc.,)
 │   │
-│   ├── __tests__/
-│   │   ├── components/
-│   │   ├── hooks/
-│   │   ├── services/
-│   │   └── fixtures/
 │   │
 │   ├── styles/
 │   │   ├── globals.css
@@ -217,18 +211,11 @@ careerhub-platform/
 └── README.md (this file)
 ```
 
-**Files to NOT commit:**
-- `.env.local` (local environment variables)
-- `node_modules/`
-- `dist/`
-- `specs/` folder (for your reference only during development)
-- `docs/` folder (for your reference only during development)
-
 ---
 
 ## Key Features
 
-### MVP (Core - Buildable in 6-8 hours)
+### MVP
 
 **Recruiter Features**
 - Email/password authentication (OAuth as planned feature)
@@ -238,12 +225,12 @@ careerhub-platform/
 - Select font family
 - Add company mission/story
 - Manage content sections (6 predefined types)
-- Drag-and-drop section reordering
 - Create, edit, delete job postings
 - Live preview of careers page
 - Publish/unpublish page visibility
 - Copy shareable link
 - Soft delete for jobs (audit trail)
+- Job status as "draft" before publishing
 
 **Candidate Features**
 - Browse public careers pages by company slug
@@ -281,7 +268,8 @@ careerhub-platform/
 - Custom domain support
 - API for third-party integrations
 - Advanced filtering and search
-- Job status as "draft" before publishing
+- Drag-and-drop section reordering
+
 
 ---
 
@@ -313,7 +301,7 @@ careerhub-platform/
 ### Data Isolation
 - Each company's data stored separately
 - Recruiter can only see/edit their own company via RLS policies
-- Candidates can only see published companies
+- Candidates can only see published companies and open jobs
 - Admin (ATS platform) has access to all via backend (future)
 
 ---
@@ -425,17 +413,6 @@ This is included free - no need to setup GitHub Actions for this MVP.
 
 ---
 
-## FAQ & Common Questions
-
-See `docs/FAQ.md` for answers to:
-- "What if we need job applications later?"
-- "How does authorization actually work with RLS?"
-- "Why PostgreSQL over NoSQL?"
-- "Can we handle millions of users?"
-- "What about OAuth login?"
-- And many more...
-
----
 
 ## Future Roadmap
 
@@ -475,11 +452,6 @@ This project was built with AI assistance at various stages:
 - Prompt 3: "Create React component for drag-drop sections" → Got base component
 - [See AGENT_LOG.md for complete AI usage details]
 
-**Where I overruled AI:**
-- Changed authorization from custom middleware to RLS (better approach)
-- Removed unnecessary backend services (Supabase handles it)
-- Simplified data model (removed over-engineering)
-
 ---
 
 ## Questions & Support
@@ -499,11 +471,11 @@ For technical issues:
 
 ## License
 
-This project is for educational purposes as part of a recruitment assignment.
+This project is for educational purposes.
 
 ---
 
 **Version:** 1.0  
-**Last Updated:** November 16, 2025  
-**Status:** MVP Ready for Development
+**Last Updated:** November 22, 2025  
+**Status:** MVP Deployed
 
