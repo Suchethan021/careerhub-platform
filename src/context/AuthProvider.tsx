@@ -24,7 +24,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             email_confirmed_at: data.session.user.email_confirmed_at ?? null,
             user_metadata: data.session.user.user_metadata ?? null,
             created_at: data.session.user.created_at,
-            updated_at: data.session.user.updated_at
+            updated_at: data.session.user.updated_at ?? data.session.user.created_at
           });
         }
       } catch (err) {
@@ -45,7 +45,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           email_confirmed_at: session.user.email_confirmed_at ?? null,
           user_metadata: session.user.user_metadata ?? null,
           created_at: session.user.created_at,
-          updated_at: session.user.updated_at
+          updated_at: session.user.updated_at ?? session.user.created_at
         });
       } else {
         setUser(null);
