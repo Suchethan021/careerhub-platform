@@ -1,40 +1,74 @@
 import { supabase } from './supabase';
-import type { Company, ApiResponse, ApiError } from '../types';
+import type { Company, ApiResponse } from '../types';
 
-// ============================================================================
-// CREATE COMPANY
-// ============================================================================
-
-export async function createCompany(
-  name: string,
-  slug: string,
-  recruiter_id: string
-): Promise<ApiResponse<Company>> {
+export async function getCompanyByUserId(userId: string): Promise<ApiResponse<Company>> {
   try {
     const { data, error } = await supabase
       .from('companies')
-      .insert({
-        name,
-        slug,
-        recruiter_id,
-        created_by: recruiter_id
-      })
-      .select()
+      .select('*')
+      .eq('recruiter_id', userId)
       .single();
 
-    if (error) {
-      return { data: null, error: error.message };
-    }
+    if (error) throw error;
 
     return { data, error: null };
-  } catch (err) {
-    return { data: null, error: (err as ApiError).message || 'Failed to create company' };
+  } catch (error) {
+    console.error('Error fetching company:', error);
+    return { data: null, error: (error as Error).message };
   }
 }
 
-// ============================================================================
-// GET COMPANY BY SLUG (PUBLIC - For Candidates)
-// ============================================================================
+export async function getCompanyById(id: string): Promise<ApiResponse<Company>> {
+  try {
+    const { data, error } = await supabase
+      .from('companies')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) throw error;
+
+    return { data, error: null };
+  } catch (error) {
+    console.error('Error fetching company:', error);
+    return { data: null, error: (error as Error).message };
+  }
+}
+
+export async function createCompany(company: Omit<Company, 'id' | 'created_at' | 'updated_at'>): Promise<ApiResponse<Company>> {
+  try {
+    const { data, error } = await supabase
+      .from('companies')
+      .insert([company])
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    return { data, error: null };
+  } catch (error) {
+    console.error('Error creating company:', error);
+    return { data: null, error: (error as Error).message };
+  }
+}
+
+export async function updateCompany(id: string, updates: Partial<Company>): Promise<ApiResponse<Company>> {
+  try {
+    const { data, error } = await supabase
+      .from('companies')
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    return { data, error: null };
+  } catch (error) {
+    console.error('Error updating company:', error);
+    return { data: null, error: (error as Error).message };
+  }
+}
 
 export async function getCompanyBySlug(slug: string): Promise<ApiResponse<Company>> {
   try {
@@ -42,84 +76,29 @@ export async function getCompanyBySlug(slug: string): Promise<ApiResponse<Compan
       .from('companies')
       .select('*')
       .eq('slug', slug)
-      .eq('is_published', true)
       .single();
 
-    if (error) {
-      return { data: null, error: error.message };
-    }
-
+    if (error) throw error;
     return { data, error: null };
-  } catch (err) {
-    return { data: null, error: (err as ApiError).message || 'Company not found' };
+  } catch (error) {
+    console.error('Error fetching company:', error);
+    return { data: null, error: (error as Error).message };
   }
 }
 
-// ============================================================================
-// GET RECRUITER'S COMPANY
-// ============================================================================
-
-export async function getRecruiterCompany(recruiter_id: string): Promise<ApiResponse<Company>> {
+export async function getPublishedCompanies(): Promise<ApiResponse<Company[]>> {
   try {
     const { data, error } = await supabase
       .from('companies')
       .select('*')
-      .eq('recruiter_id', recruiter_id)
-      .single();
+      .eq('is_published', true)
+      .order('created_at', { ascending: false });
 
-    if (error) {
-      return { data: null, error: error.message };
-    }
-
-    return { data, error: null };
-  } catch (err) {
-    return { data: null, error: (err as ApiError).message || 'Company not found' };
+    if (error) throw error;
+    return { data: data || [], error: null };
+  } catch (error) {
+    console.error('Error fetching published companies:', error);
+    return { data: null, error: (error as Error).message };
   }
 }
 
-// ============================================================================
-// UPDATE COMPANY
-// ============================================================================
-
-export async function updateCompany(
-  company_id: string,
-  updates: Partial<Company>,
-  updated_by: string
-): Promise<ApiResponse<Company>> {
-  try {
-    const { data, error } = await supabase
-      .from('companies')
-      .update({
-        ...updates,
-        updated_by,
-        updated_at: new Date().toISOString()
-      })
-      .eq('id', company_id)
-      .select()
-      .single();
-
-    if (error) {
-      return { data: null, error: error.message };
-    }
-
-    return { data, error: null };
-  } catch (err) {
-    return { data: null, error: (err as ApiError).message || 'Failed to update company' };
-  }
-}
-
-// ============================================================================
-// PUBLISH COMPANY
-// ============================================================================
-
-export async function publishCompany(company_id: string, updated_by: string): Promise<ApiResponse<Company>> {
-  return updateCompany(company_id, { is_published: true }, updated_by);
-}
-
-// ============================================================================
-// UNPUBLISH COMPANY
-// ============================================================================
-
-export async function unpublishCompany(company_id: string, updated_by: string): Promise<ApiResponse<Company>> {
-  return updateCompany(company_id, { is_published: false }, updated_by);
-}
