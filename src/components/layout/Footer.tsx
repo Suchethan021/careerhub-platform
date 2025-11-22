@@ -185,7 +185,7 @@ export function Footer() {
               <ul className="space-y-3">
                 <li className="flex items-start gap-2">
                   <FiMail className="text-blue-400 mt-1 shrink-0" />
-                  <a href="mailto:hello@careerhub.com" className="text-gray-400 hover:text-white transition text-sm">
+                  <a href="mailto:kummajellasuchethan@gmail.com" className="text-gray-400 hover:text-white transition text-sm">
                     hello@careerhub.com
                   </a>
                 </li>

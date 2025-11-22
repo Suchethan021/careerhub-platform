@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiArrowRight, FiBriefcase, FiUsers, FiEye, FiTrendingUp, FiCheck, FiZap, FiShield, FiGlobe } from 'react-icons/fi';
+import { FiArrowRight, FiBriefcase, FiUsers, FiEye, FiTrendingUp, FiCheck, FiZap, FiShield } from 'react-icons/fi';
 import { useAuth } from '../hooks/useAuth';
 import { useState } from 'react';
 import { ComingSoonModal } from '../components/common/ComingSoonModal';
@@ -65,7 +65,7 @@ export function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-indigo-50">
       {/* Hero Section - FIXED PADDING */}
       <section className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 pt-24 pb-32">
         <motion.div
@@ -90,7 +90,7 @@ export function Home() {
               
               <h1 className="text-6xl lg:text-7xl font-bold text-gray-900 leading-tight">
                 Build Beautiful
-                <span className="block bg-gradient-to-r from-blue-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                <span className="block bg-linear-to-r from-blue-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
                   Careers Pages
                 </span>
               </h1>
@@ -103,17 +103,19 @@ export function Home() {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               {isAuthenticated ? (
-                <Link
-                  to="/dashboard"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:shadow-xl font-semibold transition transform hover:scale-105"
-                >
-                  Go to Dashboard <FiArrowRight />
-                </Link>
+                <>
+                  <Link
+                    to="/dashboard"
+                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:shadow-xl font-semibold transition transform hover:scale-105"
+                  >
+                    Start hiring from your dashboard <FiArrowRight />
+                  </Link>
+                </>
               ) : (
                 <>
                   <Link
                     to="/signup"
-                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:shadow-xl font-semibold transition transform hover:scale-105"
+                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:shadow-xl font-semibold transition transform hover:scale-105"
                   >
                     Start Free Trial <FiArrowRight />
                   </Link>
@@ -140,7 +142,7 @@ export function Home() {
             <motion.div
               animate={{ y: [0, -20, 0] }}
               transition={{ duration: 4, repeat: Infinity }}
-              className="relative h-[500px] bg-gradient-to-br from-blue-400 via-blue-500 to-indigo-600 rounded-3xl shadow-2xl flex items-center justify-center overflow-hidden"
+              className="relative h-[500px] bg-linear-to-br from-blue-400 via-blue-500 to-indigo-600 rounded-3xl shadow-2xl flex items-center justify-center overflow-hidden"
             >
               {/* Decorative Elements */}
               <div className="absolute inset-0 opacity-30">
@@ -171,6 +173,75 @@ export function Home() {
         </motion.div>
       </section>
 
+      {/* About Section */}
+      <section id="about" className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-4xl font-bold text-gray-900 mb-6">
+                Built for Modern Recruiting
+              </h2>
+              <p className="text-lg text-gray-600 mb-6">
+                CareerHub was created by recruiters, for recruiters. We understand the challenges
+                of attracting top talent in today's competitive market.
+              </p>
+              <p className="text-lg text-gray-600 mb-6">
+                Our platform empowers you to create stunning, branded careers pages that showcase
+                your company culture and make it easy for candidates to discover and apply to
+                your open positions.
+              </p>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                    <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <span className="text-gray-700">Used by 500+ companies worldwide</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                    <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <span className="text-gray-700">3x increase in quality applications</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                    <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <span className="text-gray-700">Setup in under 10 minutes</span>
+                </div>
+              </div>
+            </div>
+            <div className="bg-linear-to-br from-blue-500 to-purple-600 rounded-2xl p-8 text-white">
+              <h3 className="text-2xl font-bold mb-4">Why Choose CareerHub?</h3>
+              <ul className="space-y-4">
+                <li className="flex gap-3">
+                  <span className="text-2xl">🎨</span>
+                  <span>Beautiful, customizable designs that match your brand</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-2xl">⚡</span>
+                  <span>Lightning-fast setup with no technical knowledge required</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-2xl">📱</span>
+                  <span>Mobile-first design ensures great experience on any device</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-2xl">📊</span>
+                  <span>Built-in analytics to track your recruitment performance</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Stats Section - PROPER SPACING */}
       <section className="bg-white border-y border-gray-200">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-20">
@@ -183,7 +254,7 @@ export function Home() {
                 transition={{ delay: idx * 0.1 }}
                 className="text-center"
               >
-                <div className="text-5xl lg:text-6xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+                <div className="text-5xl lg:text-6xl font-bold bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
                   {stat.number}
                 </div>
                 <div className="text-lg font-semibold text-gray-900 mb-1">{stat.label}</div>
@@ -195,7 +266,7 @@ export function Home() {
       </section>
 
       {/* Features Section - PROPER SPACING */}
-      <section className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-32">
+      <section id="features" className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-32">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -230,7 +301,7 @@ export function Home() {
               <motion.div
                 key={idx}
                 variants={itemVariants}
-                className="group bg-white p-8 rounded-2xl border-2 border-gray-200 hover:border-blue-500 hover:shadow-xl hover:bg-gradient-to-br hover:from-blue-50 transition-all duration-300"
+                className="group bg-white p-8 rounded-2xl border-2 border-gray-200 hover:border-blue-500 hover:shadow-xl hover:bg-linear-to-br hover:from-blue-50 transition-all duration-300"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="bg-blue-100 p-4 rounded-xl group-hover:bg-blue-600 transition-all">
@@ -249,7 +320,7 @@ export function Home() {
       </section>
 
       {/* Why Choose Section */}
-      <section className="bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white">
+      <section className="bg-linear-to-r from-blue-600 via-indigo-600 to-blue-700 text-white">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-32">
           <h2 className="text-5xl lg:text-6xl font-bold mb-20 text-center">Why Choose CareerHub?</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -268,7 +339,7 @@ export function Home() {
                 transition={{ delay: idx * 0.05 }}
                 className="flex items-start gap-4"
               >
-                <div className="flex-shrink-0 mt-1">
+                <div className="shrink-0 mt-1">
                   <FiCheck className="text-2xl font-bold" />
                 </div>
                 <span className="text-lg font-semibold">{benefit}</span>
@@ -279,7 +350,7 @@ export function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-32 text-center">
+      <section id="pricing" className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-32 text-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -287,15 +358,89 @@ export function Home() {
         >
           <h2 className="text-5xl lg:text-6xl font-bold text-gray-900">Ready to get started?</h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Join hundreds of companies building stunning careers pages and hiring top talent
+            Join companies building careers pages that actually explain the work and the team.
           </p>
-          <Link
-            to="/signup"
-            className="inline-flex items-center gap-2 px-10 py-5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:shadow-xl font-semibold text-lg transition transform hover:scale-105"
-          >
-            Start Your Free Trial <FiArrowRight />
-          </Link>
+          {isAuthenticated ? (
+            <Link
+              to="/dashboard"
+              className="inline-flex items-center gap-2 px-10 py-5 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:shadow-xl font-semibold text-lg transition transform hover:scale-105"
+            >
+              Open your dashboard <FiArrowRight />
+            </Link>
+          ) : (
+            <Link
+              to="/signup"
+              className="inline-flex items-center gap-2 px-10 py-5 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:shadow-xl font-semibold text-lg transition transform hover:scale-105"
+            >
+              Start Your Free Trial <FiArrowRight />
+            </Link>
+          )}
         </motion.div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Get in Touch</h2>
+            <p className="text-xl text-gray-600">
+              Have questions? We'd love to hear from you.
+            </p>
+          </div>
+
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-linear-to-br from-blue-50 to-purple-50 rounded-2xl p-8 text-center">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                  <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
+                  <p className="text-sm text-gray-600">hello@careerhub.com</p>
+                </div>
+
+                <div>
+                  <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                  </div>
+                  <h3 className="font-semibold text-gray-900 mb-1">Phone</h3>
+                  <p className="text-sm text-gray-600">+1 (555) 123-4567</p>
+                </div>
+
+                <div>
+                  <div className="w-12 h-12 bg-pink-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <h3 className="font-semibold text-gray-900 mb-1">Office</h3>
+                  <p className="text-sm text-gray-600">San Francisco, CA</p>
+                </div>
+              </div>
+
+              {isAuthenticated ? (
+              <Link
+                to="/dashboard"
+                className="inline-flex items-center gap-2 px-10 py-5 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:shadow-xl font-semibold text-lg transition transform hover:scale-105"
+              >
+                Open your dashboard <FiArrowRight />
+              </Link>
+            ) : (
+            <Link
+              to="/signup"
+              className="inline-flex items-center gap-2 px-10 py-5 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:shadow-xl font-semibold text-lg transition transform hover:scale-105"
+            >
+              Start Your Free Trial <FiArrowRight />
+            </Link>
+          )}
+            </div>
+          </div>
+        </div>
       </section>
 
       <ComingSoonModal
