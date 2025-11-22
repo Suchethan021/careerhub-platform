@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { FiMail, FiLock, FiEye, FiEyeOff, FiBriefcase } from 'react-icons/fi';
 import { motion } from 'framer-motion';
+import { ComingSoonModal } from '../common/ComingSoonModal';
 
 export function LoginForm() {
   const [email, setEmail] = useState('');
@@ -10,8 +11,17 @@ export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [showModal, setShowModal] = useState({ show: false, feature: '' });
   const navigate = useNavigate();
   const { login } = useAuth();
+
+  const handleModalOpen = (feature: string) => {
+    setShowModal({ show: true, feature });
+  };
+
+  const handleModalClose = () => {
+    setShowModal({ show: false, feature: '' });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,13 +38,14 @@ export function LoginForm() {
   };
 
   return (
+  <>
     <div className="min-h-screen grid lg:grid-cols-2">
       {/* Left - Brand Side */}
       <div className="hidden lg:flex bg-linear-to-br from-blue-600 via-purple-600 to-pink-500 p-12 flex-col justify-between relative overflow-hidden">
         {/* Animated background circles */}
         <div className="absolute top-20 left-20 w-72 h-72 bg-white/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-20 right-20 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse delay-1000" />
-        
+
         <div className="relative z-10">
           <Link to="/" className="flex items-center gap-3 text-white">
             <FiBriefcase size={32} />
@@ -49,7 +60,9 @@ export function LoginForm() {
           className="relative z-10"
         >
           <h2 className="text-5xl font-bold text-white mb-6 leading-tight">
-            Build Your Dream<br />Careers Page
+            Build Your Dream
+            <br />
+            Careers Page
           </h2>
           <p className="text-xl text-white/90 mb-8">
             Join 500+ companies creating beautiful, branded career experiences that attract top talent.
@@ -75,9 +88,19 @@ export function LoginForm() {
         <div className="relative z-10 flex gap-8 text-white/80 text-sm">
           <span>© 2025 CareerHub</span>
           <span>•</span>
-          <Link to="/privacy" className="hover:text-white transition">Privacy</Link>
+          <button
+            onClick={() => handleModalOpen('Privacy Policy')}
+            className="hover:text-white transition"
+          >
+            Privacy
+          </button>
           <span>•</span>
-          <Link to="/terms" className="hover:text-white transition">Terms</Link>
+          <button
+            onClick={() => handleModalOpen('Terms of Service')}
+            className="hover:text-white transition"
+          >
+            Terms
+          </button>
         </div>
       </div>
 
@@ -207,5 +230,13 @@ export function LoginForm() {
         </motion.div>
       </div>
     </div>
-  );
+
+    <ComingSoonModal
+      isOpen={showModal.show}
+      onClose={handleModalClose}
+      featureName={showModal.feature}
+      description={`Our ${showModal.feature} is currently being prepared. Please check back soon!`}
+    />
+  </>
+);
 }
